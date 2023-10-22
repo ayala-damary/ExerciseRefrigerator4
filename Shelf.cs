@@ -10,9 +10,7 @@ namespace ExerciseRefrigerator
         public static int UniqIdShelf = 0;
         public int Id { get; }
         private int _floor;
-
         private int _freeSpace;
-
         private int _currentFreeSpace;
         public List<Item> Items { get; set; }
         //public Shelf()
@@ -27,44 +25,45 @@ namespace ExerciseRefrigerator
             CurrentFreeSpace = freeSpace;
             Items = new List<Item>();
         }
-          public int Floor
+
+        public int Floor
         {
             get
             { return _floor; }
 
             set
             {
-                try { 
-                if (value <= 0) throw new Exception("invalide size");
-                _floor = value;
+                try
+                {
+                    if (value <= 0) throw new Exception("invalide size");
+                    _floor = value;
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     Console.WriteLine("Error: " + e.Message);
                 }
 
             }
-        }    
-        
-        
-        public int FreeSpace {
+        }
+        public int FreeSpace
+        {
             get
             { return _freeSpace; }
-            
+
             set
             {
-                try { 
-                if (value<=0) throw new Exception("invalide size");
-                _freeSpace = value;
+                try
+                {
+                    if (value <= 0) throw new Exception("invalide size");
+                    _freeSpace = value;
                 }
-                                catch (Exception e)
+                catch (Exception e)
                 {
                     Console.WriteLine("שגיאה: " + e.Message);
                 }
 
-            } 
+            }
         }
-
         public int CurrentFreeSpace
         {
             get
@@ -72,11 +71,12 @@ namespace ExerciseRefrigerator
 
             set
             {
-                try { 
-                if (value <= 0) throw new Exception("invalide size");
-                _currentFreeSpace = value;
+                try
+                {
+                    if (value <= 0) throw new Exception("invalide size");
+                    _currentFreeSpace = value;
                 }
-                                catch (Exception e)
+                catch (Exception e)
                 {
                     Console.WriteLine("שגיאה: " + e.Message);
                 }
@@ -107,14 +107,14 @@ namespace ExerciseRefrigerator
                 this.CurrentFreeSpace -= item.Size;
                 return true;
 
-            }  
+            }
             return false;
         }
 
         //4
         public Item SearchItemOnItems(int itemId)
         {
-            foreach(Item item in Items)
+            foreach (Item item in Items)
             {
                 if (item.Id == itemId)
                 {
@@ -127,7 +127,7 @@ namespace ExerciseRefrigerator
         //4
         public Item RemoveItemFromShelf(int itemId)
         {
-          Item item = SearchItemOnItems(itemId);
+            Item item = SearchItemOnItems(itemId);
             if (item != null)
             {
                 item.Shelf = null;
@@ -138,19 +138,18 @@ namespace ExerciseRefrigerator
             return item;
         }
 
-
         public void RemoveItemByKashrutAndDate(Kashrut kashrut, int countDay)
         {
             DateTime currentTime = DateTime.Now;
             DateTime ExpirationDateFinall = currentTime.AddDays(countDay);
             List<Item> filteredNumbers = new List<Item>();
 
-                foreach(Item item in Items)
-                {
-                    if (item.Kashrut == kashrut && item.ExpirationDate < ExpirationDateFinall)
-                        RemoveItemFromShelf(item.Id);
-                }
-       
+            foreach (Item item in Items)
+            {
+                if (item.Kashrut == kashrut && item.ExpirationDate < ExpirationDateFinall)
+                    RemoveItemFromShelf(item.Id);
+            }
+
         }
 
         //4
@@ -162,8 +161,7 @@ namespace ExerciseRefrigerator
             return item;
         }
 
-
-        public String CleanExpired()
+        public String CleanExpiredFromShelf()
         {
             DateTime currentTime = DateTime.Now;
             String itemlist = "";
@@ -182,9 +180,7 @@ namespace ExerciseRefrigerator
             return itemlist;
         }
 
-
-
-        public String PrepareForShopping2(Kashrut kashrut,int countDay)
+        public String PrepareForShopping2(Kashrut kashrut, int countDay)
         {
             DateTime currentTime = DateTime.Now;
             DateTime ExpirationDateFinall = currentTime.AddDays(countDay);
@@ -195,13 +191,11 @@ namespace ExerciseRefrigerator
                 if (item.Kashrut == kashrut && item.ExpirationDate < ExpirationDateFinall)
                 {
                     itemlist = item.ToString() + "\n";
-                    REmoveItem(item.Id);
+                    RemoveItemFromShelf(item.Id);
                 }
 
             }
-
             // Items.RemoveAll(item => item.ExpirationDate < DateTime.Now);
-
             return itemlist;
         }
 
@@ -217,10 +211,12 @@ namespace ExerciseRefrigerator
             }
             return items;
         }
+
         public override string ToString()
-        { String displayShelf = $"Shelf number: {Id}\nFloor: {Floor}\nFree space: {CurrentFreeSpace}\n";
+        {
+            String displayShelf = $"Shelf number: {Id}\nFloor: {Floor}\nFree space: {CurrentFreeSpace}\n";
             for (int i = 0; i < Items.Count; i++)
-                displayShelf+= Items[i].ToString();
+                displayShelf += Items[i].ToString();
             return displayShelf;
         }
 

@@ -36,7 +36,6 @@ namespace ExerciseRefrigerator
             ExpirationDate = expirationDate;
             Size = size;
         }
-
         public Item(string v)
         {
             Id = UniqIdItem++;
@@ -57,7 +56,7 @@ namespace ExerciseRefrigerator
             {
                 try
                 {
-                    if (value.Length <=1) new Exception("invalide name");
+                    if (value.Length <= 1) throw new Exception("invalide name");
                     _name = value;
                 }
                 catch (Exception e)
@@ -67,7 +66,6 @@ namespace ExerciseRefrigerator
 
             }
         }
-
 
         public Type Type
         {
@@ -84,7 +82,7 @@ namespace ExerciseRefrigerator
                     {
                         _type = (Type)value;
                     }
-                    else new Exception("invalide type");
+                    else throw new Exception("invalide type");
 
                 }
                 catch (Exception e)
@@ -110,7 +108,7 @@ namespace ExerciseRefrigerator
                         _kashrut = (Kashrut)value;
                     }
                     else
-                        new Exception("invalide name");
+                        throw new Exception("invalide name");
                 }
                 catch (Exception e)
                 {
@@ -131,7 +129,6 @@ namespace ExerciseRefrigerator
                 try
                 {
                     _expirationDate = Convert.ToDateTime(value);
-
                 }
                 catch (Exception e)
                 {
@@ -151,7 +148,7 @@ namespace ExerciseRefrigerator
             {
                 try
                 {
-                    if (value is int) new Exception("invalide size");
+                    if (value is int) throw new Exception("invalide size");
                     _size = value;
                 }
                 catch (Exception e)

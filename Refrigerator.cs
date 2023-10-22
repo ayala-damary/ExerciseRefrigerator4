@@ -11,7 +11,6 @@ namespace ExerciseRefrigerator
         public int Id { get; }
         private string _model;
         private string _color;
-
         private int _numShelves;
         public List<Shelf> Shelves { get; set; }
         public Refrigerator()
@@ -37,7 +36,7 @@ namespace ExerciseRefrigerator
             {
                 try
                 {
-                    if (value.Length <= 1) new Exception("invalide model");
+                    if (value.Length <= 1) throw new Exception("invalide model");
                     _model = value;
                 }
                 catch (Exception e)
@@ -58,7 +57,7 @@ namespace ExerciseRefrigerator
             {
                 try
                 {
-                    if (value.Length <= 1) new Exception("invalide color");
+                    if (value.Length <= 1) throw new Exception("invalide color");
                     _color = value;
                 }
                 catch (Exception e)
@@ -68,6 +67,7 @@ namespace ExerciseRefrigerator
 
             }
         }
+
         public int NumShelves
         {
             get
@@ -101,7 +101,7 @@ namespace ExerciseRefrigerator
         }
 
         //3
-        public bool AddItem(Item item)
+        public bool AddItemForRefrigerator(Item item)
         {
             foreach (Shelf shelf in Shelves)
             {
@@ -117,7 +117,7 @@ namespace ExerciseRefrigerator
 
 
         //4
-        public Item RemoveItem(int itemId)
+        public Item RemoveItemForRefrigerator(int itemId)
         {
             Item item = new Item();
             foreach (Shelf shelf in Shelves)
@@ -131,27 +131,27 @@ namespace ExerciseRefrigerator
         }
 
         //5*
-        public String CleanExpired()
+        public String CleanExpiredFromRefrigerator()
         {
-            String listItem = "";
+            String ItemsCleanExpired = "";
             foreach (Shelf shelf in Shelves)
             {
-                listItem += shelf.CleanExpired();
+                ItemsCleanExpired += shelf.CleanExpiredFromShelf();
             }
-            return listItem;
+            return ItemsCleanExpired;
         }
 
 
         //6
         public List<Item> FindItemsByTypeAndKashrut(Kashrut kashrut, Type type)
         {
-            List<Item> items = new List<Item>();
+            List<Item> itemsTypeAndKashrut = new List<Item>();
             foreach (Shelf shelf in Shelves)
             {
-                items.AddRange(shelf.FindItemsByTypeAndKashrut(kashrut, type));
+                itemsTypeAndKashrut.AddRange(shelf.FindItemsByTypeAndKashrut(kashrut, type));
             }
 
-            return items;
+            return itemsTypeAndKashrut;
         }
 
 
@@ -181,7 +181,6 @@ namespace ExerciseRefrigerator
         {
             List<Refrigerator> refrigeratorsSorted = refrigerators;
             refrigeratorsSorted.Add(this);
-
             refrigeratorsSorted.Sort((x, y) => y.GetFreeSpace() - x.GetFreeSpace());
             return refrigeratorsSorted;
         }
@@ -195,14 +194,13 @@ namespace ExerciseRefrigerator
             foreach(Shelf shelf in Shelves)
             {
                 shelf.RemoveItemByKashrutAndDate(kashrut,countDay);
-            }
-            
+            }           
         }
         public void PrepareForShopping()
         {
             if (this.GetFreeSpace() < 20)
             {
-                CleanExpired();
+              CleanExpiredFromRefrigerator();
                 if (this.GetFreeSpace() < 20)
                 {
                     CleansByExpirationdateAndKosher(Kashrut.deary, 3);
